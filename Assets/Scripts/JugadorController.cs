@@ -13,6 +13,7 @@ public class JugadorController : MonoBehaviour {
     public Text textoContador;
     public Text textoGanar;
     public Text textoTimer;
+    public Text textoNivel;
     
     // Lógica del juego
     public float tiempoRestante = 120f;
@@ -25,8 +26,8 @@ public class JugadorController : MonoBehaviour {
         contador = 0;
         SetTextoContador();
         textoGanar.text = "";
+        textoNivel.text = "" + SceneManager.GetActiveScene().name;
     }
-
 
     void Update() {
         if (!juegoTerminado) {
@@ -68,19 +69,21 @@ public class JugadorController : MonoBehaviour {
         juegoTerminado = true;
         textoGanar.text = "¡Ganaste!";
         textoGanar.color = Color.green;
-        StartCoroutine(CambiarEscena(5f)); 
+  
+        StartCoroutine(CambiarEscena(5f, nombreSiguienteEscena)); 
     }
 
     void PerderJuego() {
         juegoTerminado = true;
         textoGanar.text = "¡Perdiste! Tiempo agotado";
         textoGanar.color = Color.red;
-        StartCoroutine(CambiarEscena(5f)); 
+
+        StartCoroutine(CambiarEscena(5f, "MenuPrincipal")); 
     }
 
 
-    IEnumerator CambiarEscena(float delay) {
+    IEnumerator CambiarEscena(float delay, string nombreEscenaDestino) {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene(nombreSiguienteEscena);
+        SceneManager.LoadScene(nombreEscenaDestino);
     }
 }
